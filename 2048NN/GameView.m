@@ -120,8 +120,36 @@ NSLock *lock;
 		}
 	}
 }
+-(int)countEmpty{
+	int sum=0;
+	for(int i=0;i<4;i++){
+		for(int j=0;j<4;j++){
+			if(tiles[i][j] == 0)sum++;
+		}
+	}
+	return sum;
+}
+-(void) addRandomTiles{
+	int tileToAdd = arc4random_uniform([self countEmpty]);
+	int val = arc4random_uniform(2);
+	for(int i=0;i<4;i++){
+		for(int j=0;j<4;j++){
+			if(tiles[j][i] == 0){
+				if(tileToAdd == 0){
+					tiles[j][i] = val!=0?2:4;
+					tileToAdd--;
+					
+					
+				}
+				tileToAdd--;
+			}
+		}
+	}
+}
 -(void)keyDown:(NSEvent *)theEvent{
 	[lock lock];
+	int tempArray[4][4];
+	memcpy(tempArray, tiles, sizeof(tempArray));
 	switch ([theEvent keyCode])
 	{
 		case 123:
@@ -138,6 +166,12 @@ NSLock *lock;
 			break;
 		
 	}
+	
+	if(memcmp(tempArray, tiles, sizeof(tempArray))){
+		[self addRandomTiles];
+		if(arc4random_uniform(7)==0)[self addRandomTiles];
+	}
+	
 	[lock unlock];
 	[self setNeedsDisplay:YES];
 }
