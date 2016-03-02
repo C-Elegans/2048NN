@@ -39,7 +39,7 @@
 		memcpy(mat_result, mat_result_new, _layersize);
 	}
 	
-	vDSP_mmul(mat_result, 1, [_layerList lastObject].matrix, 1, outputs, 1, 1, _layersize, _outputs);
+	vDSP_mmul(mat_result, 1, [_layerList lastObject].matrix, 1, outputs, 1, 1, _outputs, _layersize);
 	[self activate:outputs size:_outputs];
 }
 
