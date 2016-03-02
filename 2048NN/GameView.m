@@ -183,7 +183,10 @@ NSLock *lock;
 	
 	if(memcmp(tempArray, tiles, sizeof(tempArray))){
 		[self addRandomTiles];
+		_didMove = YES;
 		//if(arc4random_uniform(7)==0)[self addRandomTiles];
+	}else{
+		_didMove = NO;
 	}
 	
 	[lock unlock];
@@ -191,5 +194,12 @@ NSLock *lock;
 }
 -(void)keyDown:(NSEvent *)theEvent{
 	[self pressKey:[theEvent keyCode]];
+}
+-(void)getFloats:(float*)results{
+	int* t = &tiles[0][0];
+	for(int i=0;i<16;i++){
+		results[i] = (float)t[i];
+	}
+	results[16] = _didMove ? 1.0:0.0;
 }
 @end

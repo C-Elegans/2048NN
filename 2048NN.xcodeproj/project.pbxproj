@@ -14,6 +14,8 @@
 		0A12B5821C872F1D00729DE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A12B5801C872F1D00729DE6 /* Main.storyboard */; };
 		0A12B58D1C872F1D00729DE6 /* _048NNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A12B58C1C872F1D00729DE6 /* _048NNTests.m */; };
 		0A12B59C1C872FDB00729DE6 /* GameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A12B59B1C872FDB00729DE6 /* GameView.m */; };
+		0A12B5A21C878AE300729DE6 /* CENeuralNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A12B5A11C878AE300729DE6 /* CENeuralNetwork.m */; };
+		0A12B5A51C878B9A00729DE6 /* CENetworkLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A12B5A41C878B9A00729DE6 /* CENetworkLayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,10 @@
 		0A12B58E1C872F1D00729DE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A12B59A1C872FDB00729DE6 /* GameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameView.h; sourceTree = "<group>"; };
 		0A12B59B1C872FDB00729DE6 /* GameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameView.m; sourceTree = "<group>"; };
+		0A12B5A01C878AE300729DE6 /* CENeuralNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CENeuralNetwork.h; sourceTree = "<group>"; };
+		0A12B5A11C878AE300729DE6 /* CENeuralNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CENeuralNetwork.m; sourceTree = "<group>"; };
+		0A12B5A31C878B9A00729DE6 /* CENetworkLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CENetworkLayer.h; sourceTree = "<group>"; };
+		0A12B5A41C878B9A00729DE6 /* CENetworkLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CENetworkLayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +98,10 @@
 				0A12B5781C872F1D00729DE6 /* Supporting Files */,
 				0A12B59A1C872FDB00729DE6 /* GameView.h */,
 				0A12B59B1C872FDB00729DE6 /* GameView.m */,
+				0A12B5A01C878AE300729DE6 /* CENeuralNetwork.h */,
+				0A12B5A11C878AE300729DE6 /* CENeuralNetwork.m */,
+				0A12B5A31C878B9A00729DE6 /* CENetworkLayer.h */,
+				0A12B5A41C878B9A00729DE6 /* CENetworkLayer.m */,
 			);
 			path = 2048NN;
 			sourceTree = "<group>";
@@ -212,9 +222,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A12B5A51C878B9A00729DE6 /* CENetworkLayer.m in Sources */,
 				0A12B57D1C872F1D00729DE6 /* ViewController.m in Sources */,
 				0A12B57A1C872F1D00729DE6 /* main.m in Sources */,
 				0A12B59C1C872FDB00729DE6 /* GameView.m in Sources */,
+				0A12B5A21C878AE300729DE6 /* CENeuralNetwork.m in Sources */,
 				0A12B5771C872F1D00729DE6 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
