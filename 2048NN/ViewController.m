@@ -20,6 +20,10 @@
 	[super setRepresentedObject:representedObject];
 
 	// Update the view, if already loaded.
+	
+}
+-(void)keyDown:(NSEvent *)theEvent{
+	
 }
 
 @end

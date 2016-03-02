@@ -13,6 +13,7 @@
 		0A12B57F1C872F1D00729DE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A12B57E1C872F1D00729DE6 /* Assets.xcassets */; };
 		0A12B5821C872F1D00729DE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A12B5801C872F1D00729DE6 /* Main.storyboard */; };
 		0A12B58D1C872F1D00729DE6 /* _048NNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A12B58C1C872F1D00729DE6 /* _048NNTests.m */; };
+		0A12B59C1C872FDB00729DE6 /* GameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A12B59B1C872FDB00729DE6 /* GameView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,8 @@
 		0A12B5881C872F1D00729DE6 /* 2048NNTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 2048NNTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A12B58C1C872F1D00729DE6 /* _048NNTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048NNTests.m; sourceTree = "<group>"; };
 		0A12B58E1C872F1D00729DE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A12B59A1C872FDB00729DE6 /* GameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameView.h; sourceTree = "<group>"; };
+		0A12B59B1C872FDB00729DE6 /* GameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +90,8 @@
 				0A12B5801C872F1D00729DE6 /* Main.storyboard */,
 				0A12B5831C872F1D00729DE6 /* Info.plist */,
 				0A12B5781C872F1D00729DE6 /* Supporting Files */,
+				0A12B59A1C872FDB00729DE6 /* GameView.h */,
+				0A12B59B1C872FDB00729DE6 /* GameView.m */,
 			);
 			path = 2048NN;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 			files = (
 				0A12B57D1C872F1D00729DE6 /* ViewController.m in Sources */,
 				0A12B57A1C872F1D00729DE6 /* main.m in Sources */,
+				0A12B59C1C872FDB00729DE6 /* GameView.m in Sources */,
 				0A12B5771C872F1D00729DE6 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
