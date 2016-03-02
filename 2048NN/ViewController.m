@@ -65,16 +65,21 @@ NSMutableArray<CENeuralNetwork*>* networks;
 				
 				[gv getFloats:input];
 				[net solve:input outputs:output];
-				dispatch_async(dispatch_get_main_queue(), ^{
+				dispatch_group_t group = dispatch_group_create();
+				dispatch_group_enter(group);
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)/100), dispatch_get_main_queue(), ^{
+					
 					[gv activate:output];
+					dispatch_group_leave(group);
 				});
+				dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 				
 				
 				
 				if(!gv.didMove)stopped++;
 				if(stopped>5)break;
 			}
-			net.score = (float)gv.score/(float)i;
+			net.score = (float)gv.score;
 		}
 		[self sortNetworks];
 		NSLog(@"Epoch: %d max score: %f",epoch,[networks firstObject].score);

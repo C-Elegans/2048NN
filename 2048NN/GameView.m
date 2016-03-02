@@ -43,7 +43,7 @@ NSLock *lock;
 	topLeft.x = dirtyRect.size.width/2 - 2*TileSize;
 	topLeft.y = dirtyRect.size.height/2 - 3*TileSize;
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
-	CGRect scoreRect = CGRectMake(10, 10, 200, 50);
+	CGRect scoreRect = CGRectMake(10, dirtyRect.size.height-50, 200, 50);
 	[[NSString stringWithFormat:@"%d",_score]drawInRect:scoreRect withAttributes:@{NSFontAttributeName:[NSFont fontWithName:@"Arial Black" size:20]}];
     [super drawRect:dirtyRect];
 	for(int i=0;i<4;i++){
