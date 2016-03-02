@@ -15,4 +15,8 @@
 #define RIGHT 124
 #define DOWN 125
 #define UP 126
+-(void)reset;
+-(void)getFloats:(float*)results;
+-(void)pressKey:(short)key;
+-(void)activate:(float*) values;
 @end

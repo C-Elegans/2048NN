@@ -27,14 +27,17 @@ NSLock *lock;
 			   @1024:[NSColor colorWithRed:237/255.0 green:197/255.0 blue:64/255.0 alpha:255/255.0],
 			   @2048:[NSColor colorWithRed:237/255.0 green:196/255.0 blue:4/255.0 alpha:255/255.0]
 			   };
-	tiles[1][2]=4;
-	tiles[1][1] = 2;
-	tiles[2][1] = 2;
-	_score = 0;
+	
+	[self reset];
 	lock = [NSLock new];
 }
+-(void)reset{
+	_score = 0;
+	memset(tiles, 0, sizeof(float)*4*4);
+	[self addRandomTiles];
+}
 - (void)drawRect:(NSRect)dirtyRect {
-	[lock lock];
+	
 	
 	CGPoint topLeft;
 	topLeft.x = dirtyRect.size.width/2 - 2*TileSize;
@@ -58,7 +61,7 @@ NSLock *lock;
 			
 		}
 	}
-	[lock unlock];
+	
 }
 -(BOOL)acceptsFirstResponder{
 	return YES;
@@ -161,7 +164,7 @@ NSLock *lock;
 	}
 }
 -(void)pressKey:(short)key{
-	[lock lock];
+	
 	int tempArray[4][4];
 	memcpy(tempArray, tiles, sizeof(tempArray));
 	switch (key)
@@ -189,7 +192,7 @@ NSLock *lock;
 		_didMove = NO;
 	}
 	
-	[lock unlock];
+	
 	[self setNeedsDisplay:YES];
 }
 -(void)keyDown:(NSEvent *)theEvent{
@@ -198,8 +201,16 @@ NSLock *lock;
 -(void)getFloats:(float*)results{
 	int* t = &tiles[0][0];
 	for(int i=0;i<16;i++){
-		results[i] = (float)t[i];
+		results[i] =t[i] >0? 1.0f- (1.0f/(float)t[i]):0;
 	}
 	results[16] = _didMove ? 1.0:0.0;
+}
+-(void)activate:(float*) values{
+	for(int i=0;i<4;i++){
+		if(values[i]>0.5){
+			[self pressKey:LEFT+i];
+			
+		}
+	}
 }
 @end

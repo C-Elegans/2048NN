@@ -7,7 +7,9 @@
 //
 
 #import "CENeuralNetwork.h"
+#import "CENetworkLayer.h"
 #import <Accelerate/Accelerate.h>
+#define RANDB (rand() & 1)
 @implementation CENeuralNetwork
 -(id)init:(int)inputs outputs:(int)outputs layers:(int)numLayers layerSize:(int)layerSize{
 	self = [super init];
@@ -16,6 +18,7 @@
 	_outputs = outputs;
 	_layers = numLayers;
 	_layersize = layerSize;
+	_score = 0;
 	[_layerList addObject:[[CENetworkLayer alloc]initRandom:_inputs height:_layersize]];
 	for(int i=0;i<numLayers;i++){
 		[_layerList addObject:[[CENetworkLayer alloc]initRandom:_layersize height:_layersize]];
@@ -41,6 +44,21 @@
 	
 	vDSP_mmul(mat_result, 1, [_layerList lastObject].matrix, 1, outputs, 1, 1, _outputs, _layersize);
 	[self activate:outputs size:_outputs];
+}
++(CENeuralNetwork*)breedNetwork:(CENeuralNetwork*)one with:(CENeuralNetwork*)two{
+	CENeuralNetwork* net = [[CENeuralNetwork alloc]init:one.inputs outputs:one.outputs layers:one.layers layerSize:one.layersize];
+	for(int i=0;i<[one.layerList count];i++){
+		CENetworkLayer* layerOne = [one.layerList objectAtIndex:i];
+		CENetworkLayer* layerTwo = [two.layerList objectAtIndex:i];
+		CENetworkLayer* newLayer = [net.layerList objectAtIndex:i];
+		int width = layerOne.width;
+		for(int j=0;j<layerOne.height;j++){
+			for(int i=0;i<layerOne.width;i++){
+				newLayer.matrix[j*width + i] = RANDB ? layerOne.matrix[j*width+i] : layerTwo.matrix[j*width+i];
+			}
+		}
+	}
+	return net;
 }
 
 @end

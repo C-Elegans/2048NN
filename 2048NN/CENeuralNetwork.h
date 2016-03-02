@@ -13,7 +13,9 @@
 @property int outputs;
 @property int layers;
 @property int layersize;
+@property float score;
 @property NSMutableArray<CENetworkLayer*>* layerList;
 -(id)init:(int)inputs outputs:(int)outputs layers:(int)numLayers layerSize:(int)layerSize;
 -(void)solve:(float*)inputs outputs:(float*)outputs;
++(CENeuralNetwork*)breedNetwork:(CENeuralNetwork*)one with:(CENeuralNetwork*)two;
 @end
