@@ -12,6 +12,7 @@
 int tiles[4][4];
 NSDictionary<NSNumber*,NSColor*>* colors;
 NSLock *lock;
+
 -(void)awakeFromNib{
 	colors = @{@2:[NSColor colorWithRed:239/255.0 green:228/255.0 blue:218/255.0 alpha:255/255.0],
 			   @4:[NSColor colorWithRed:238/255.0 green:224/255.0 blue:200/255.0 alpha:255/255.0],
@@ -23,6 +24,7 @@ NSLock *lock;
 	tiles[1][2]=4;
 	tiles[1][1] = 2;
 	tiles[2][1] = 2;
+	_score = 0;
 	lock = [NSLock new];
 }
 - (void)drawRect:(NSRect)dirtyRect {
@@ -32,6 +34,8 @@ NSLock *lock;
 	topLeft.x = dirtyRect.size.width/2 - 2*TileSize;
 	topLeft.y = dirtyRect.size.height/2 - 3*TileSize;
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+	CGRect scoreRect = CGRectMake(10, 10, 200, 50);
+	[[NSString stringWithFormat:@"%d",_score]drawInRect:scoreRect withAttributes:@{NSFontAttributeName:[NSFont fontWithName:@"Arial Black" size:20]}];
     [super drawRect:dirtyRect];
 	for(int i=0;i<4;i++){
 		for(int j=0;j<4;j++){
@@ -65,6 +69,7 @@ NSLock *lock;
 				else if(tiles[j+1][i] == val && val >0){
 					tiles[j][i] = 0;
 					tiles[j+1][i] = 2*val;
+					_score += 2*val;
 				}
 			}
 		}
@@ -81,6 +86,7 @@ NSLock *lock;
 				}else if(tiles[j-1][i] == val && val >0){
 					tiles[j][i] = 0;
 					tiles[j-1][i] = 2*val;
+					_score += 2*val;
 				}
 			}
 		}
@@ -98,6 +104,7 @@ NSLock *lock;
 				else if(tiles[j][i+1] == val && val >0){
 					tiles[j][i] = 0;
 					tiles[j][i+1] = 2*val;
+					_score += 2*val;
 				}
 			}
 		}
@@ -115,6 +122,7 @@ NSLock *lock;
 				else if(tiles[j][i-1] == val && val >0){
 					tiles[j][i] = 0;
 					tiles[j][i-1] = 2*val;
+					_score += 2*val;
 				}
 			}
 		}
@@ -146,33 +154,36 @@ NSLock *lock;
 		}
 	}
 }
--(void)keyDown:(NSEvent *)theEvent{
+-(void)pressKey:(short)key{
 	[lock lock];
 	int tempArray[4][4];
 	memcpy(tempArray, tiles, sizeof(tempArray));
-	switch ([theEvent keyCode])
+	switch (key)
 	{
-		case 123:
-			[self moveTilesLeft];
-			break;
-		case 124:
-			[self moveTilesRight];
-			break;
-		case 125:
-			[self moveTilesDown];
-			break;
-		case 126:
-			[self moveTilesUp];
-			break;
+		case LEFT:
+		[self moveTilesLeft];
+		break;
+		case RIGHT:
+		[self moveTilesRight];
+		break;
+		case DOWN:
+		[self moveTilesDown];
+		break;
+		case UP:
+		[self moveTilesUp];
+		break;
 		
 	}
 	
 	if(memcmp(tempArray, tiles, sizeof(tempArray))){
 		[self addRandomTiles];
-		if(arc4random_uniform(7)==0)[self addRandomTiles];
+		//if(arc4random_uniform(7)==0)[self addRandomTiles];
 	}
 	
 	[lock unlock];
 	[self setNeedsDisplay:YES];
+}
+-(void)keyDown:(NSEvent *)theEvent{
+	[self pressKey:[theEvent keyCode]];
 }
 @end

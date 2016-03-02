@@ -9,5 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 @interface GameView : NSView
-
+@property int score;
+@property bool didMove;
+#define LEFT 123
+#define RIGHT 124
+#define DOWN 125
+#define UP 126
 @end
