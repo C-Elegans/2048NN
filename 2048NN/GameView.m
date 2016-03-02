@@ -19,7 +19,13 @@ NSLock *lock;
 			   @0:[NSColor darkGrayColor],
 			   @8:[NSColor colorWithRed:243/255.0 green:178/255.0 blue:121/255.0 alpha:255/255.0],
 			   @16:[NSColor colorWithRed:245/255.0 green:149/255.0 blue:99/255.0 alpha:255/255.0],
-			   @32:[NSColor colorWithRed:247/255.0 green:125/255.0 blue:95/255.0 alpha:255/255.0]
+			   @32:[NSColor colorWithRed:247/255.0 green:125/255.0 blue:95/255.0 alpha:255/255.0],
+			   @64:[NSColor colorWithRed:247/255.0 green:95/255.0 blue:58/255.0 alpha:255/255.0],
+			   @128:[NSColor colorWithRed:235/255.0 green:206/255.0 blue:113/255.0 alpha:255/255.0],
+			   @256:[NSColor colorWithRed:235/255.0 green:206/255.0 blue:113/255.0 alpha:255/255.0],
+			   @512:[NSColor colorWithRed:236/255.0 green:199/255.0 blue:80/255.0 alpha:255/255.0],
+			   @1024:[NSColor colorWithRed:237/255.0 green:197/255.0 blue:64/255.0 alpha:255/255.0],
+			   @2048:[NSColor colorWithRed:237/255.0 green:196/255.0 blue:4/255.0 alpha:255/255.0]
 			   };
 	tiles[1][2]=4;
 	tiles[1][1] = 2;
