@@ -19,4 +19,5 @@
 -(void)getFloats:(float*)results;
 -(void)pressKey:(short)key display:(BOOL)display;
 -(void)activate:(float*) values display:(BOOL)display;
+-(void)reseed;
 @end

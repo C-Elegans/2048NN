@@ -7,7 +7,7 @@
 //
 
 #import "CENetworkLayer.h"
-#define randf() ((CGFloat)rand() / RAND_MAX)
+#define randf() ((CGFloat)rand() / RAND_MAX)-0.5
 @implementation CENetworkLayer
 -(id)init:(float*)matrix width:(int)width height:(int)height{
 	self = [super init];
@@ -15,6 +15,13 @@
 	memcpy(_matrix, matrix, sizeof(float)*width*height);
 	_width = width;
 	_height = height;
+	return self;
+}
+-(id)init:(int)width height:(int)height{
+	self = [super init];
+	_width = width;
+	_height = height;
+	_matrix = malloc(sizeof(float)*width*height);
 	return self;
 }
 -(id)initRandom:(int)width height:(int)height{
@@ -30,7 +37,8 @@
 	return self;
 }
 -(void)dealloc{
-	free(_matrix);
+	if(_matrix != nil)free(_matrix);
+	_matrix = nil;
 }
 
 @end

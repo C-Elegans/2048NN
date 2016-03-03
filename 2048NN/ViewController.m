@@ -10,11 +10,11 @@
 #import "CENeuralNetwork.h"
 #import "GameView.h"
 #import "AppDelegate.h"
-#define LAYERS 10
-#define LAYERSIZE 128
+#define LAYERS 6
+#define LAYERSIZE 256
 
 @implementation ViewController
-float output[4];
+float output[2];
 float input[17];
 float highScore;
 NSMutableArray<CENeuralNetwork*>* networks;
@@ -22,7 +22,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	[super viewDidLoad];
 	networks = [NSMutableArray new];
 	for(int i=0;i<150;i++){
-		[networks addObject:[[CENeuralNetwork alloc]init:17 outputs:4 layers:LAYERS layerSize:LAYERSIZE]];
+		[networks addObject:[[CENeuralNetwork alloc]init:17 outputs:2 layers:LAYERS layerSize:LAYERSIZE]];
 	}
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		[self trainNetworks];
@@ -46,21 +46,47 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	
 }
 -(void)breedNetworks{
+	NSLock* lock = [NSLock new];
 	NSMutableArray<CENeuralNetwork*>* newNetworks = [NSMutableArray new];
+	dispatch_group_t group = dispatch_group_create();
 	for(int i=1;i<15;i++){
 		[newNetworks addObject:[networks objectAtIndex:[networks count]-i]];
 	}
 	for(int i=1;i<20;i++){
 		for(int j=i+1;j<20;j++){
-			[newNetworks addObject:[CENeuralNetwork breedNetwork:[networks objectAtIndex:[networks count]-i] with:[networks objectAtIndex:[networks count]-j]]];
+			dispatch_group_enter(group);
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+			CENeuralNetwork* net = [CENeuralNetwork breedNetwork:[networks objectAtIndex:[networks count]-i] with:[networks objectAtIndex:[networks count]-j]];
+			[lock lock];
+			[newNetworks addObject:net];
+			[lock unlock];
+			dispatch_group_leave(group);
+		});
 		}
 	}
 	for(int i=0;i<30;i++){
-		[newNetworks addObject:[CENeuralNetwork breedNetwork:[networks objectAtIndex:i] with:[networks objectAtIndex:[networks count]-(i+1)]]];
+	dispatch_group_enter(group);
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+		CENeuralNetwork* net =[CENeuralNetwork breedNetwork:[networks objectAtIndex:i] with:[networks objectAtIndex:[networks count]-(i+1)]];
+		[lock lock];
+		[newNetworks addObject: net];
+		[lock unlock];
+		dispatch_group_leave(group);
+	});
 	}
 	for(int i=0;i<20;i++){
-		[newNetworks addObject:[[CENeuralNetwork alloc]init:17 outputs:4 layers:LAYERS layerSize:LAYERSIZE]];
+	dispatch_group_enter(group);
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+		CENeuralNetwork* net = [[CENeuralNetwork alloc]init:17 outputs:2 layers:LAYERS layerSize:LAYERSIZE];
+		[lock lock];
+		[newNetworks addObject:net];
+		[lock unlock];
+		dispatch_group_leave(group);
+	});
+		
 	}
+	dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+	
 	networks = newNetworks;
 }
 -(void)trainNetworks{
@@ -69,7 +95,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	dispatch_group_t group = dispatch_group_create();
 	AppDelegate* delegate = (AppDelegate*)[NSApp delegate];
 	while(1){
-		
+		[gv reseed];
 		for(CENeuralNetwork* net in networks){
 			int stopped = 0;
 			[gv reset];

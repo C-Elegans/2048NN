@@ -15,8 +15,8 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	_delay = YES;
-	_display = YES;
+	_delay = NO;
+	_display = NO;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

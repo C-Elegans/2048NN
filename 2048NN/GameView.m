@@ -10,9 +10,13 @@
 #define TileSize 50
 @implementation GameView
 int tiles[4][4];
+
 NSDictionary<NSNumber*,NSColor*>* colors;
 NSLock *lock;
-
+-(void)reseed{
+	arc4random_stir();
+	srand(arc4random());
+}
 -(void)awakeFromNib{
 	colors = @{@2:[NSColor colorWithRed:239/255.0 green:228/255.0 blue:218/255.0 alpha:255/255.0],
 			   @4:[NSColor colorWithRed:238/255.0 green:224/255.0 blue:200/255.0 alpha:255/255.0],
@@ -32,6 +36,12 @@ NSLock *lock;
 	lock = [NSLock new];
 }
 -(void)reset{
+	
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		srand(arc4random());
+	});
+	
 	_score = 0;
 	memset(tiles, 0, sizeof(float)*4*4);
 	[self addRandomTiles];
@@ -147,8 +157,8 @@ NSLock *lock;
 	return sum;
 }
 -(void) addRandomTiles{
-	int tileToAdd = arc4random_uniform([self countEmpty]);
-	int val = arc4random_uniform(2);
+	int tileToAdd = rand() % [self countEmpty];
+	int val = rand()&1;
 	for(int i=0;i<4;i++){
 		for(int j=0;j<4;j++){
 			if(tiles[j][i] == 0){
@@ -205,10 +215,17 @@ NSLock *lock;
 	results[16] = _didMove ? 1.0:0.0;
 }
 -(void)activate:(float*) values display:(BOOL)display{
-	for(int i=0;i<4;i++){
-		if(values[i]>0.5){
-			[self pressKey:LEFT+i display:display];
-			
+	if(values[0]>0){
+		if(values[1]>0){
+			[self pressKey:UP display:display];
+		}else{
+			[self pressKey:LEFT display:display];
+		}
+	}else{
+		if(values[1]>0){
+			[self pressKey:DOWN display:display];
+		}else{
+			[self pressKey:RIGHT display:display];
 		}
 	}
 }

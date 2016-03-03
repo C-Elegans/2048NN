@@ -13,5 +13,6 @@
 @property int width;
 @property int height;
 -(id)initRandom:(int)width height:(int)height;
+-(id)init:(int)width height:(int)height;
 -(id)init:(float*)matrix width:(int)width height:(int)height;
 @end
