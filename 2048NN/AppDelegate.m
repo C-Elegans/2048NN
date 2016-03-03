@@ -15,11 +15,18 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	
+	_delay = YES;
+	_display = YES;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
 	// Insert code here to tear down your application
+}
+- (IBAction)toggleDelay:(id)sender {
+	_delay = ! _delay;
+}
+- (IBAction)toggleView:(id)sender {
+	_display = ! _display;
 }
 
 @end

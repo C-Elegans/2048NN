@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
-
-
+@property BOOL delay;
+@property BOOL display;
 @end
 

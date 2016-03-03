@@ -163,7 +163,7 @@ NSLock *lock;
 		}
 	}
 }
--(void)pressKey:(short)key{
+-(void)pressKey:(short)key display:(BOOL)display{
 	
 	int tempArray[4][4];
 	memcpy(tempArray, tiles, sizeof(tempArray));
@@ -192,11 +192,10 @@ NSLock *lock;
 		_didMove = NO;
 	}
 	
-	
-	[self setNeedsDisplay:YES];
+	if(display)[self setNeedsDisplay:YES];
 }
 -(void)keyDown:(NSEvent *)theEvent{
-	[self pressKey:[theEvent keyCode]];
+	[self pressKey:[theEvent keyCode] display:YES];
 }
 -(void)getFloats:(float*)results{
 	int* t = &tiles[0][0];
@@ -205,10 +204,10 @@ NSLock *lock;
 	}
 	results[16] = _didMove ? 1.0:0.0;
 }
--(void)activate:(float*) values{
+-(void)activate:(float*) values display:(BOOL)display{
 	for(int i=0;i<4;i++){
 		if(values[i]>0.5){
-			[self pressKey:LEFT+i];
+			[self pressKey:LEFT+i display:display];
 			
 		}
 	}

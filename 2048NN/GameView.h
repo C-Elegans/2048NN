@@ -17,6 +17,6 @@
 #define UP 126
 -(void)reset;
 -(void)getFloats:(float*)results;
--(void)pressKey:(short)key;
--(void)activate:(float*) values;
+-(void)pressKey:(short)key display:(BOOL)display;
+-(void)activate:(float*) values display:(BOOL)display;
 @end
