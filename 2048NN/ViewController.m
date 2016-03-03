@@ -10,8 +10,8 @@
 #import "CENeuralNetwork.h"
 #import "GameView.h"
 #import "AppDelegate.h"
-#define LAYERS 6
-#define LAYERSIZE 256
+#define LAYERS 10
+#define LAYERSIZE 128
 
 @implementation ViewController
 float output[2];
@@ -49,11 +49,11 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	NSLock* lock = [NSLock new];
 	NSMutableArray<CENeuralNetwork*>* newNetworks = [NSMutableArray new];
 	dispatch_group_t group = dispatch_group_create();
-	for(int i=1;i<15;i++){
+	for(int i=1;i<3;i++){
 		[newNetworks addObject:[networks objectAtIndex:[networks count]-i]];
 	}
-	for(int i=1;i<20;i++){
-		for(int j=i+1;j<20;j++){
+	for(int i=1;i<25;i++){
+		for(int j=i+1;j<25;j++){
 			dispatch_group_enter(group);
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 			CENeuralNetwork* net = [CENeuralNetwork breedNetwork:[networks objectAtIndex:[networks count]-i] with:[networks objectAtIndex:[networks count]-j]];
@@ -64,7 +64,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		});
 		}
 	}
-	for(int i=0;i<30;i++){
+	for(int i=0;i<10;i++){
 	dispatch_group_enter(group);
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 		CENeuralNetwork* net =[CENeuralNetwork breedNetwork:[networks objectAtIndex:i] with:[networks objectAtIndex:[networks count]-(i+1)]];
@@ -74,7 +74,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		dispatch_group_leave(group);
 	});
 	}
-	for(int i=0;i<20;i++){
+	/*for(int i=0;i<20;i++){
 	dispatch_group_enter(group);
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 		CENeuralNetwork* net = [[CENeuralNetwork alloc]init:17 outputs:2 layers:LAYERS layerSize:LAYERSIZE];
@@ -84,10 +84,15 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		dispatch_group_leave(group);
 	});
 		
-	}
+	}*/
 	dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 	
 	networks = newNetworks;
+}
+-(void)mutateNetworks{
+	[networks enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(CENeuralNetwork * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		[obj mutate];
+	}];
 }
 -(void)trainNetworks{
 	GameView* gv = (GameView*)self.view;
@@ -100,7 +105,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 			int stopped = 0;
 			[gv reset];
 			
-			while(stopped<5){
+			while(stopped<2){
 				
 				[gv getFloats:input];
 				[net solve:input outputs:output];
@@ -120,6 +125,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 				
 				
 				if(!gv.didMove)stopped++;
+				else stopped = 0;
 				
 			}
 			net.score = (float)gv.score;
@@ -130,6 +136,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		[self sortNetworks];
 		NSLog(@"Epoch: %d max score: %.0f, high: %.0f",epoch,[networks lastObject].score, highScore);
 		[self breedNetworks];
+		[self mutateNetworks];
 		epoch++;
 	}
 }

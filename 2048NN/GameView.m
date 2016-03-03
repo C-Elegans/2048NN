@@ -10,12 +10,12 @@
 #define TileSize 50
 @implementation GameView
 int tiles[4][4];
-
+int seed = 0;
 NSDictionary<NSNumber*,NSColor*>* colors;
 NSLock *lock;
 -(void)reseed{
 	arc4random_stir();
-	srand(arc4random());
+	seed = arc4random();
 }
 -(void)awakeFromNib{
 	colors = @{@2:[NSColor colorWithRed:239/255.0 green:228/255.0 blue:218/255.0 alpha:255/255.0],
@@ -39,9 +39,9 @@ NSLock *lock;
 	
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		srand(arc4random());
+		seed =arc4random();
 	});
-	
+	srand(seed);
 	_score = 0;
 	memset(tiles, 0, sizeof(float)*4*4);
 	[self addRandomTiles];
