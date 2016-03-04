@@ -89,7 +89,9 @@
 			data = _mm256_mul_ps(data, _mm256_rcp_ps(data2));
 			_mm256_storeu_ps(vector, data);
 			vector += 8;
+			
 		}
+		_mm256_zeroupper();
 	}
 	for(;i<size;i++){
 		//vector[i] = tanhf(vector[i]);

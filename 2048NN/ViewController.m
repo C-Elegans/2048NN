@@ -10,8 +10,8 @@
 #import "CENeuralNetwork.h"
 #import "GameView.h"
 #import "AppDelegate.h"
-#define LAYERS 10
-#define LAYERSIZE 128
+#define LAYERS 3
+#define LAYERSIZE 32
 
 @implementation ViewController
 float output[2];
@@ -145,10 +145,12 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		if(epoch>50 && highScore<2000){
 			[self initNetworks];
 			epoch = 0;
+			highScore = 0;
 		}
-		if(epoch>100 && highScore<5000){
+		if(epoch>100 && highScore<7000){
 			[self initNetworks];
 			epoch = 0;
+			highScore = 0;
 		}
 	}
 }
