@@ -21,16 +21,19 @@ NSMutableArray<CENeuralNetwork*>* networks;
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	networks = [NSMutableArray new];
-	for(int i=0;i<150;i++){
-		[networks addObject:[[CENeuralNetwork alloc]init:17 outputs:2 layers:LAYERS layerSize:LAYERSIZE]];
-	}
+	[self initNetworks];
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		[self trainNetworks];
 	});
 	highScore = 0;
 	// Do any additional setup after loading the view.
 }
-
+-(void)initNetworks{
+	[networks removeAllObjects];
+	for(int i=0;i<150;i++){
+		[networks addObject:[[CENeuralNetwork alloc]init:17 outputs:2 layers:LAYERS layerSize:LAYERSIZE]];
+	}
+}
 - (void)setRepresentedObject:(id)representedObject {
 	[super setRepresentedObject:representedObject];
 
@@ -137,7 +140,16 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		NSLog(@"Epoch: %d max score: %.0f, high: %.0f",epoch,[networks lastObject].score, highScore);
 		[self breedNetworks];
 		[self mutateNetworks];
+		
 		epoch++;
+		if(epoch>50 && highScore<2000){
+			[self initNetworks];
+			epoch = 0;
+		}
+		if(epoch>100 && highScore<5000){
+			[self initNetworks];
+			epoch = 0;
+		}
 	}
 }
 

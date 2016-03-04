@@ -211,6 +211,7 @@ NSLock *lock;
 	int* t = &tiles[0][0];
 	for(int i=0;i<16;i++){
 		results[i] =t[i] >0? 1.0f- (1.0f/(float)t[i]):0;
+		//results[i] = t[i];
 	}
 	results[16] = _didMove ? 1.0:0.0;
 }
