@@ -7,6 +7,7 @@
 //
 
 #import "CENetworkLayer.h"
+#include <immintrin.h>
 #define randf() ((CGFloat)rand() / RAND_MAX)-0.5
 @implementation CENetworkLayer
 -(id)init:(float*)matrix width:(int)width height:(int)height{
@@ -28,10 +29,12 @@
 	self = [super init];
 	_width = width;
 	_height = height;
+	unsigned int r;
 	_matrix = malloc(sizeof(float)*width*height);
 	for(int j=0;j<_height;j++){
 		for(int i=0;i<_width;i++){
-			_matrix[j*_width + i] = randf();
+			_rdrand32_step(&r);
+			_matrix[j*_width + i] = (float)(signed int)(r&~(2>>31))/(float)INT_MAX;
 		}
 	}
 	return self;
