@@ -87,6 +87,8 @@
 			__m256 data2 = _mm256_andnot_ps(sign_mask, data);
 			data2 = _mm256_add_ps(data2, _mm256_set1_ps(1));
 			data = _mm256_mul_ps(data, _mm256_rcp_ps(data2));
+			data = _mm256_mul_ps(data, _mm256_set1_ps(0.5));
+			data = _mm256_add_ps(data, _mm256_set1_ps(0.5));
 			_mm256_storeu_ps(vector, data);
 			vector += 8;
 			
@@ -113,7 +115,7 @@
 	}
 	
 	vDSP_mmul(mat_result, 1, [_layerList lastObject].matrix, 1, outputs, 1, 1, _outputs, _layersize);
-	[self activate:outputs size:_outputs];
+	//[self activate:outputs size:_outputs];
 }
 +(CENeuralNetwork*)breedNetwork:(CENeuralNetwork*)one with:(CENeuralNetwork*)two{
 	CENeuralNetwork* net = [[CENeuralNetwork alloc]initNoRand:one.inputs outputs:one.outputs layers:one.layers layerSize:one.layersize];

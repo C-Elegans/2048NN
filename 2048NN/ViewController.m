@@ -138,7 +138,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		}
 		[self sortNetworks];
 		NSLog(@"Epoch: %d max score: %.0f, high: %.0f",epoch,[networks lastObject].score, highScore);
-		[self breedNetworks];
+		if(!(epoch>50 && [networks lastObject].score < 4000))[self breedNetworks];
 		[self mutateNetworks];
 		
 		epoch++;
