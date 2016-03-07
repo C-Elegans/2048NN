@@ -12,7 +12,7 @@
 #include <immintrin.h>
 #include <mm_malloc.h>
 #include "NetworkHelper.h"
-#define RANDB (arc4random() & 1)
+#define RANDB (rand() & 1)
 @implementation CENeuralNetwork
 //float* mat_result= NULL;
 //float* mat_result_new=NULL;
@@ -138,12 +138,16 @@
 		CENetworkLayer* newLayer = [net.layerList objectAtIndex:i];
 		int width = layerOne.width;
 		for(int j=0;j<layerOne.height;j++){
-			int sw = arc4random_uniform(layerOne.width);
-			bool first = RANDB;
+			//int sw = arc4random_uniform(layerOne.width);
+			//bool first = RANDB;
+			unsigned int seed;
+			_rdrand32_step(&seed);
+			srand(seed);
 			for(int i=0;i<layerOne.width;i++){
+				bool sel = RANDB;
 				//newLayer.matrix[j*width + i] =  (layerOne.matrix[j*width+i] +layerTwo.matrix[j*width+i])/2;
-				newLayer.matrix[j*width + i] = (i>=sw)^first ? layerOne.matrix[j*width+i] :layerTwo.matrix[j*width+i];
-				
+				//newLayer.matrix[j*width + i] = (i>=sw)^first ? layerOne.matrix[j*width+i] :layerTwo.matrix[j*width+i];
+				newLayer.matrix[j*width + i] = sel ? layerOne.matrix[j*width+i] :layerTwo.matrix[j*width+i];
 			}
 		}
 	}

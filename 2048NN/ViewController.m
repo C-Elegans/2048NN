@@ -114,7 +114,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 			int stopped = 0;
 			[gv reset];
 			
-			while(stopped<2){
+			while(stopped<10){
 				
 				[gv getFloats:input];
 				[net solve:input outputs:output];
