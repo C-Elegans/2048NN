@@ -672,7 +672,21 @@
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl" customClass="GameView">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="264"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="2DL-2G-XKV" customClass="NetDisplayView">
+                                <rect key="frame" x="311" y="0.0" width="169" height="264"/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="2DL-2G-XKV" secondAttribute="trailing" id="Mat-rW-7Zg"/>
+                            <constraint firstAttribute="bottom" secondItem="2DL-2G-XKV" secondAttribute="bottom" id="Sha-nP-xe9"/>
+                            <constraint firstItem="2DL-2G-XKV" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Ybd-dL-Qu4"/>
+                            <constraint firstItem="2DL-2G-XKV" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="311" id="yP6-dA-YTI"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="netDisplayView" destination="2DL-2G-XKV" id="mNi-sR-3Xv"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

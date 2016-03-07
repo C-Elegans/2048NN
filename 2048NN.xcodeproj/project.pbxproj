@@ -16,7 +16,25 @@
 		0A12B59C1C872FDB00729DE6 /* GameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A12B59B1C872FDB00729DE6 /* GameView.m */; };
 		0A12B5A21C878AE300729DE6 /* CENeuralNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A12B5A11C878AE300729DE6 /* CENeuralNetwork.m */; };
 		0A12B5A51C878B9A00729DE6 /* CENetworkLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A12B5A41C878B9A00729DE6 /* CENetworkLayer.m */; };
+		0A5901761C89D62100CB4A72 /* NetDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5901751C89D62100CB4A72 /* NetDisplayView.m */; };
+		0A753CDB1C8E24E700750EC6 /* NetworkHelper.ispc in Resources */ = {isa = PBXBuildFile; fileRef = 0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */; };
+		0A753CDC1C8E24FE00750EC6 /* NetworkHelper.ispc in Sources */ = {isa = PBXBuildFile; fileRef = 0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		0A753CD61C8E218700750EC6 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*ispc";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h",
+				"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o",
+			);
+			script = "ispc -O3 -o \"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o\" \"${SRCROOT}/${PROJECT_NAME}/${INPUT_FILE_BASE}.ispc\" -h \"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h\"";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
 		0A12B5891C872F1D00729DE6 /* PBXContainerItemProxy */ = {
@@ -47,6 +65,9 @@
 		0A12B5A11C878AE300729DE6 /* CENeuralNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CENeuralNetwork.m; sourceTree = "<group>"; };
 		0A12B5A31C878B9A00729DE6 /* CENetworkLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CENetworkLayer.h; sourceTree = "<group>"; };
 		0A12B5A41C878B9A00729DE6 /* CENetworkLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CENetworkLayer.m; sourceTree = "<group>"; };
+		0A5901741C89D62100CB4A72 /* NetDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetDisplayView.h; sourceTree = "<group>"; };
+		0A5901751C89D62100CB4A72 /* NetDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetDisplayView.m; sourceTree = "<group>"; };
+		0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NetworkHelper.ispc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +109,7 @@
 		0A12B5741C872F1D00729DE6 /* 2048NN */ = {
 			isa = PBXGroup;
 			children = (
+				0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */,
 				0A12B5751C872F1D00729DE6 /* AppDelegate.h */,
 				0A12B5761C872F1D00729DE6 /* AppDelegate.m */,
 				0A12B57B1C872F1D00729DE6 /* ViewController.h */,
@@ -102,6 +124,8 @@
 				0A12B5A11C878AE300729DE6 /* CENeuralNetwork.m */,
 				0A12B5A31C878B9A00729DE6 /* CENetworkLayer.h */,
 				0A12B5A41C878B9A00729DE6 /* CENetworkLayer.m */,
+				0A5901741C89D62100CB4A72 /* NetDisplayView.h */,
+				0A5901751C89D62100CB4A72 /* NetDisplayView.m */,
 			);
 			path = 2048NN;
 			sourceTree = "<group>";
@@ -135,6 +159,7 @@
 				0A12B5701C872F1D00729DE6 /* Resources */,
 			);
 			buildRules = (
+				0A753CD61C8E218700750EC6 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -204,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A12B57F1C872F1D00729DE6 /* Assets.xcassets in Resources */,
+				0A753CDB1C8E24E700750EC6 /* NetworkHelper.ispc in Resources */,
 				0A12B5821C872F1D00729DE6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -222,8 +248,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A753CDC1C8E24FE00750EC6 /* NetworkHelper.ispc in Sources */,
 				0A12B5A51C878B9A00729DE6 /* CENetworkLayer.m in Sources */,
 				0A12B57D1C872F1D00729DE6 /* ViewController.m in Sources */,
+				0A5901761C89D62100CB4A72 /* NetDisplayView.m in Sources */,
 				0A12B57A1C872F1D00729DE6 /* main.m in Sources */,
 				0A12B59C1C872FDB00729DE6 /* GameView.m in Sources */,
 				0A12B5A21C878AE300729DE6 /* CENeuralNetwork.m in Sources */,
@@ -349,7 +377,7 @@
 				CLANG_X86_VECTOR_INSTRUCTIONS = avx;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_FAST_MATH = YES;
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_UNROLL_LOOPS = NO;
 				INFOPLIST_FILE = 2048NN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -367,7 +395,7 @@
 				CLANG_X86_VECTOR_INSTRUCTIONS = avx;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_FAST_MATH = YES;
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_UNROLL_LOOPS = NO;
 				INFOPLIST_FILE = 2048NN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

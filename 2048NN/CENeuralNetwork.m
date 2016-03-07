@@ -11,6 +11,7 @@
 #import <Accelerate/Accelerate.h>
 #include <immintrin.h>
 #include <mm_malloc.h>
+#include "NetworkHelper.h"
 #define RANDB (arc4random() & 1)
 @implementation CENeuralNetwork
 //float* mat_result= NULL;
@@ -67,19 +68,27 @@
 -(void)mutate{
 	for(CENetworkLayer* layer in _layerList){
 		float *mat = layer.matrix;
-		for(int i=0;i<layer.width*layer.height;i++){
+		unsigned int r;
+		_rdrand32_step(&r);
+		mutate(mat, layer.width*layer.height, r);
+		/*for(int i=0;i<layer.width*layer.height;i++){
 			unsigned int r;
 			if(_rdrand32_step(&r)){
-				if((r&16383)==0){
+				if((r&65535)==0){
 					_rdrand32_step(&r);
 					mat[i] = 2*((float)r/(float)INT_MAX-0.5);
 				}
+				if((r&(16383<<16))==0){
+					_rdrand32_step(&r);
+					mat[i] = mat[i]+.15*((float)r/(float)INT_MAX-0.5);
+				}
 			}
-		}
+		}*/
 	}
 }
 -(void)activate:(float*)vector size:(int)size{
-	int i=0;
+	activate(vector, size);
+	/*int i=0;
 	__m256 sign_mask = _mm256_set1_ps(-0.f); // -0.f = 1 << 31
 	if(size>=8){
 		for(;i<size;i+=8){
@@ -87,8 +96,8 @@
 			__m256 data2 = _mm256_andnot_ps(sign_mask, data);
 			data2 = _mm256_add_ps(data2, _mm256_set1_ps(1));
 			data = _mm256_mul_ps(data, _mm256_rcp_ps(data2));
-			data = _mm256_mul_ps(data, _mm256_set1_ps(0.5));
-			data = _mm256_add_ps(data, _mm256_set1_ps(0.5));
+			//data = _mm256_mul_ps(data, _mm256_set1_ps(0.5));
+			//data = _mm256_add_ps(data, _mm256_set1_ps(0.5));
 			_mm256_storeu_ps(vector, data);
 			vector += 8;
 			
@@ -99,7 +108,7 @@
 		//vector[i] = tanhf(vector[i]);
 		*vector = *vector/(1+fabs(*vector));
 		vector++;
-	}
+	}*/
 }
 
 -(void)solve:(float*)inputs outputs:(float*)outputs{

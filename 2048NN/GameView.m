@@ -51,6 +51,7 @@ NSLock *lock;
 	
 	CGPoint topLeft;
 	topLeft.x = dirtyRect.size.width/2 - 2*TileSize;
+	topLeft.x = MIN(topLeft.x, 100);
 	topLeft.y = dirtyRect.size.height/2 - 3*TileSize;
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 	CGRect scoreRect = CGRectMake(10, dirtyRect.size.height-50, 200, 50);
@@ -158,7 +159,7 @@ NSLock *lock;
 }
 -(void) addRandomTiles{
 	int tileToAdd = rand() % [self countEmpty];
-	int val = rand()&1;
+	int val = rand()&8;
 	for(int i=0;i<4;i++){
 		for(int j=0;j<4;j++){
 			if(tiles[j][i] == 0){
@@ -209,8 +210,12 @@ NSLock *lock;
 }
 -(void)getFloats:(float*)results{
 	int* t = &tiles[0][0];
+	int highestTile = 0;
 	for(int i=0;i<16;i++){
-		results[i] =t[i] >0? 1.0f- (1.0f/(float)t[i]):0;
+		if(t[i]>highestTile)highestTile = t[i];
+	}
+	for(int i=0;i<16;i++){
+		results[i] =t[i] >0? log2f(t[i])/(float)highestTile:0;
 		//results[i] = t[i];
 	}
 	results[16] = _didMove ? 1.0:0.0;

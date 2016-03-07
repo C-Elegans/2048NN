@@ -7,8 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "NetDisplayView.h"
 @interface ViewController : NSViewController
+@property (weak) IBOutlet NetDisplayView *netDisplayView;
 
 
 @end

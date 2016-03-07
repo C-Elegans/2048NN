@@ -10,8 +10,8 @@
 #import "CENeuralNetwork.h"
 #import "GameView.h"
 #import "AppDelegate.h"
-#define LAYERS 3
-#define LAYERSIZE 32
+#define LAYERS 7
+#define LAYERSIZE 64
 
 @implementation ViewController
 float output[2];
@@ -55,8 +55,8 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	for(int i=1;i<3;i++){
 		[newNetworks addObject:[networks objectAtIndex:[networks count]-i]];
 	}
-	for(int i=1;i<25;i++){
-		for(int j=i+1;j<25;j++){
+	for(int i=1;i<20;i++){
+		for(int j=i+1;j<20;j++){
 			dispatch_group_enter(group);
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 			CENeuralNetwork* net = [CENeuralNetwork breedNetwork:[networks objectAtIndex:[networks count]-i] with:[networks objectAtIndex:[networks count]-j]];
@@ -105,6 +105,12 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	while(1){
 		[gv reseed];
 		for(CENeuralNetwork* net in networks){
+			if(delegate.display){
+				_netDisplayView.netToDisplay = net;
+				_netDisplayView.needsDisplay = YES;
+				[_netDisplayView display];
+				
+			}
 			int stopped = 0;
 			[gv reset];
 			
@@ -117,12 +123,19 @@ NSMutableArray<CENeuralNetwork*>* networks;
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)/100), dispatch_get_main_queue(), ^{
 					
 					[gv activate:output display:delegate.display];
+					if(delegate.display){
+						_netDisplayView.needsDisplay = YES;
+					}
+
 					dispatch_group_leave(group);
 				});
 				dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 				}else{
 					dispatch_sync(dispatch_get_main_queue(), ^{
 						[gv activate:output display:delegate.display];
+						if(delegate.display){
+							_netDisplayView.needsDisplay = YES;
+						}
 					});
 				}
 				
