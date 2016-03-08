@@ -32,7 +32,7 @@
 				"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h",
 				"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o",
 			);
-			script = "ispc -O3 -o \"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o\" \"${SRCROOT}/${PROJECT_NAME}/${INPUT_FILE_BASE}.ispc\" -h \"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h\"";
+			script = "ispc -O3 --target=avx1.1-i32x16 --math-lib=fast -o \"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o\" \"${SRCROOT}/${PROJECT_NAME}/${INPUT_FILE_BASE}.ispc\" -h \"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h\"";
 		};
 /* End PBXBuildRule section */
 

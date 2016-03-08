@@ -10,7 +10,7 @@
 #import "CENeuralNetwork.h"
 #import "GameView.h"
 #import "AppDelegate.h"
-#define LAYERS 7
+#define LAYERS 3
 #define LAYERSIZE 64
 
 @implementation ViewController
@@ -114,13 +114,13 @@ NSMutableArray<CENeuralNetwork*>* networks;
 			int stopped = 0;
 			[gv reset];
 			
-			while(stopped<10){
+			while(stopped<2){
 				
 				[gv getFloats:input];
 				[net solve:input outputs:output];
 				if(delegate.delay){
 				dispatch_group_enter(group);
-				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)/100), dispatch_get_main_queue(), ^{
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)/100), dispatch_get_main_queue(), ^{
 					
 					[gv activate:output display:delegate.display];
 					if(delegate.display){

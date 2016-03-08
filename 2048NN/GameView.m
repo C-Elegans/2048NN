@@ -174,10 +174,7 @@ NSLock *lock;
 		}
 	}
 }
--(void)pressKey:(short)key display:(BOOL)display{
-	
-	int tempArray[4][4];
-	memcpy(tempArray, tiles, sizeof(tempArray));
+-(void)moveTiles:(short)key{
 	switch (key)
 	{
 		case LEFT:
@@ -194,13 +191,33 @@ NSLock *lock;
 		break;
 		
 	}
-	
-	if(memcmp(tempArray, tiles, sizeof(tempArray))){
+}
+-(void)testMove:(int*)tempArray{
+	if(memcmp(tempArray, tiles, sizeof(int)*4*4)){
 		[self addRandomTiles];
 		_didMove = YES;
 		//if(arc4random_uniform(7)==0)[self addRandomTiles];
 	}else{
 		_didMove = NO;
+	}
+}
+-(void)pressKey:(short)key display:(BOOL)display{
+	
+	int tempArray[4][4];
+	memcpy(tempArray, tiles, sizeof(tempArray));
+	[self moveTiles:key];
+	[self testMove:(int*)tempArray];
+	if(_didMove)return;
+	int i=0;
+	int x=(key-LEFT)+1;
+	while(i<1){
+		memcpy(tempArray, tiles, sizeof(tempArray));
+		[self moveTiles:LEFT +(x&3)];
+		[self testMove:(int*)tempArray];
+		if(_didMove)break;
+		i++;
+		x++;
+		
 	}
 	
 	if(display)[self setNeedsDisplay:YES];
