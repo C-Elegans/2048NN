@@ -10,6 +10,7 @@
 #import "CENeuralNetwork.h"
 #import "GameView.h"
 #import "AppDelegate.h"
+#import "GameBoard.h"
 #define LAYERS 3
 #define LAYERSIZE 64
 
@@ -103,52 +104,29 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	dispatch_group_t group = dispatch_group_create();
 	AppDelegate* delegate = (AppDelegate*)[NSApp delegate];
 	while(1){
-		[gv reseed];
-		for(CENeuralNetwork* net in networks){
-			if(delegate.display){
-				_netDisplayView.netToDisplay = net;
-				_netDisplayView.needsDisplay = YES;
-				[_netDisplayView display];
-				
-			}
+		
+		[networks enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(CENeuralNetwork * _Nonnull net, NSUInteger idx, BOOL * _Nonnull stop) {
+			GameBoard *gb = [GameBoard new];
+			
 			int stopped = 0;
-			[gv reset];
+			
 			
 			while(stopped<2){
 				
-				[gv getFloats:input];
+				[gb getFloats:input];
 				[net solve:input outputs:output];
-				if(delegate.delay){
-				dispatch_group_enter(group);
-				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)/100), dispatch_get_main_queue(), ^{
-					
-					[gv activate:output display:delegate.display];
-					if(delegate.display){
-						_netDisplayView.needsDisplay = YES;
-					}
-
-					dispatch_group_leave(group);
-				});
-				dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-				}else{
-					dispatch_sync(dispatch_get_main_queue(), ^{
-						[gv activate:output display:delegate.display];
-						if(delegate.display){
-							_netDisplayView.needsDisplay = YES;
-						}
-					});
-				}
 				
-				
-				if(!gv.didMove)stopped++;
+				[gb activate:output display:delegate.display];
+			
+				if(!gb.didMove)stopped++;
 				else stopped = 0;
 				
 			}
-			net.score = (float)gv.score;
-			if(gv.score>highScore){
-				highScore = gv.score;
+			net.score = (float)gb.score;
+			if(gb.score>highScore){
+				highScore = gb.score;
 			}
-		}
+		}];
 		[self sortNetworks];
 		NSLog(@"Epoch: %d max score: %.0f, high: %.0f",epoch,[networks lastObject].score, highScore);
 		if(!(epoch>50 && [networks lastObject].score < 4000))[self breedNetworks];

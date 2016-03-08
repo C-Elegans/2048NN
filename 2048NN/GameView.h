@@ -8,16 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface GameView : NSView
+@interface GameView : NSView{
+	int tiles[4][4];
+}
 @property int score;
 @property bool didMove;
+@property int* tiles;
 #define LEFT 123
 #define RIGHT 124
 #define DOWN 125
 #define UP 126
 -(void)reset;
--(void)getFloats:(float*)results;
--(void)pressKey:(short)key display:(BOOL)display;
--(void)activate:(float*) values display:(BOOL)display;
+
 -(void)reseed;
 @end

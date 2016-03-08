@@ -19,6 +19,7 @@
 		0A5901761C89D62100CB4A72 /* NetDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5901751C89D62100CB4A72 /* NetDisplayView.m */; };
 		0A753CDB1C8E24E700750EC6 /* NetworkHelper.ispc in Resources */ = {isa = PBXBuildFile; fileRef = 0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */; };
 		0A753CDC1C8E24FE00750EC6 /* NetworkHelper.ispc in Sources */ = {isa = PBXBuildFile; fileRef = 0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */; };
+		0A753CDF1C8F155E00750EC6 /* GameBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A753CDE1C8F155E00750EC6 /* GameBoard.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -68,6 +69,8 @@
 		0A5901741C89D62100CB4A72 /* NetDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetDisplayView.h; sourceTree = "<group>"; };
 		0A5901751C89D62100CB4A72 /* NetDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetDisplayView.m; sourceTree = "<group>"; };
 		0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NetworkHelper.ispc; sourceTree = "<group>"; };
+		0A753CDD1C8F155E00750EC6 /* GameBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameBoard.h; sourceTree = "<group>"; };
+		0A753CDE1C8F155E00750EC6 /* GameBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameBoard.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +129,8 @@
 				0A12B5A41C878B9A00729DE6 /* CENetworkLayer.m */,
 				0A5901741C89D62100CB4A72 /* NetDisplayView.h */,
 				0A5901751C89D62100CB4A72 /* NetDisplayView.m */,
+				0A753CDD1C8F155E00750EC6 /* GameBoard.h */,
+				0A753CDE1C8F155E00750EC6 /* GameBoard.m */,
 			);
 			path = 2048NN;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 				0A12B57A1C872F1D00729DE6 /* main.m in Sources */,
 				0A12B59C1C872FDB00729DE6 /* GameView.m in Sources */,
 				0A12B5A21C878AE300729DE6 /* CENeuralNetwork.m in Sources */,
+				0A753CDF1C8F155E00750EC6 /* GameBoard.m in Sources */,
 				0A12B5771C872F1D00729DE6 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
