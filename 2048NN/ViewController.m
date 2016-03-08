@@ -11,8 +11,8 @@
 #import "GameView.h"
 #import "AppDelegate.h"
 #import "GameBoard.h"
-#define LAYERS 3
-#define LAYERSIZE 64
+#define LAYERS 5
+#define LAYERSIZE 32
 
 @implementation ViewController
 float output[2];
@@ -56,8 +56,8 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	for(int i=1;i<3;i++){
 		[newNetworks addObject:[networks objectAtIndex:[networks count]-i]];
 	}
-	for(int i=1;i<20;i++){
-		for(int j=i+1;j<20;j++){
+	for(int i=1;i<25;i++){
+		for(int j=i+1;j<25;j++){
 			dispatch_group_enter(group);
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 			CENeuralNetwork* net = [CENeuralNetwork breedNetwork:[networks objectAtIndex:[networks count]-i] with:[networks objectAtIndex:[networks count]-j]];
@@ -68,7 +68,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		});
 		}
 	}
-	for(int i=0;i<10;i++){
+	for(int i=0;i<30;i++){
 	dispatch_group_enter(group);
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 		CENeuralNetwork* net =[CENeuralNetwork breedNetwork:[networks objectAtIndex:i] with:[networks objectAtIndex:[networks count]-(i+1)]];
@@ -78,7 +78,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		dispatch_group_leave(group);
 	});
 	}
-	/*for(int i=0;i<20;i++){
+	for(int i=0;i<20;i++){
 	dispatch_group_enter(group);
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 		CENeuralNetwork* net = [[CENeuralNetwork alloc]init:17 outputs:2 layers:LAYERS layerSize:LAYERSIZE];
@@ -88,7 +88,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		dispatch_group_leave(group);
 	});
 		
-	}*/
+	}
 	dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
 	
 	networks = newNetworks;
@@ -123,11 +123,12 @@ NSMutableArray<CENeuralNetwork*>* networks;
 				
 			}
 			net.score = (float)gb.score;
-			if(gb.score>highScore){
-				highScore = gb.score;
-			}
+			
 		}];
 		[self sortNetworks];
+		if([networks lastObject].score > highScore){
+			highScore = [networks lastObject].score;
+		}
 		NSLog(@"Epoch: %d max score: %.0f, high: %.0f",epoch,[networks lastObject].score, highScore);
 		if(!(epoch>50 && [networks lastObject].score < 4000))[self breedNetworks];
 		[self mutateNetworks];
