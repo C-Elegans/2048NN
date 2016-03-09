@@ -18,6 +18,8 @@
 float output[2];
 float input[17];
 float highScore;
+float last8[8];
+int avgindex = 0;
 NSMutableArray<CENeuralNetwork*>* networks;
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -53,7 +55,7 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	NSLock* lock = [NSLock new];
 	NSMutableArray<CENeuralNetwork*>* newNetworks = [NSMutableArray new];
 	dispatch_group_t group = dispatch_group_create();
-	for(int i=1;i<3;i++){
+	for(int i=1;i<5;i++){
 		[newNetworks addObject:[networks objectAtIndex:[networks count]-i]];
 	}
 	for(int i=1;i<25;i++){
@@ -129,7 +131,14 @@ NSMutableArray<CENeuralNetwork*>* networks;
 		if([networks lastObject].score > highScore){
 			highScore = [networks lastObject].score;
 		}
-		NSLog(@"Epoch: %d max score: %.0f, high: %.0f",epoch,[networks lastObject].score, highScore);
+		
+		last8[avgindex++&7] =  [networks lastObject].score;
+		float sum = 0;
+		for(int i=0;i<8;i++){
+			sum += last8[i];
+		}
+		printf("%s", [[NSString stringWithFormat:@"Epoch: %5d max score: %7.0f, high: %8.0f, avg: %7.0f\n",epoch,[networks lastObject].score, highScore,sum/8] UTF8String]);
+		
 		if(!(epoch>50 && [networks lastObject].score < 4000))[self breedNetworks];
 		[self mutateNetworks];
 		

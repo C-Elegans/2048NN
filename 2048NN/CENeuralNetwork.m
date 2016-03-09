@@ -8,7 +8,7 @@
 
 #import "CENeuralNetwork.h"
 #import "CENetworkLayer.h"
-#import <Accelerate/Accelerate.h>
+#include <mkl.h>
 #include <immintrin.h>
 #include <mm_malloc.h>
 #include "NetworkHelper.h"
@@ -80,18 +80,21 @@
 }
 
 -(void)solve:(float*)inputs outputs:(float*)outputs{
-	float mat_result[(_layersize+8)&~0x7] __attribute__((aligned(32)));
-	float mat_result_new[(_layersize+8)&~0x7] __attribute__((aligned(32)));
-	vDSP_mmul(inputs, 1, [_layerList objectAtIndex:0].matrix, 1, mat_result, 1, 1, _layersize, _inputs);
+	//float mat_result[(_layersize+8)&~0x7] __attribute__((aligned(32)));
+	float* mat_result = alloca(((_layersize+8)&~0x7)*sizeof(float));
+	//float mat_result_new[(_layersize+8)&~0x7] __attribute__((aligned(32)));
+	float* mat_result_new = alloca(((_layersize+8)&~0x7)*sizeof(float));
+	//vDSP_mmul(inputs, 1, [_layerList objectAtIndex:0].matrix, 1, mat_result, 1, 1, _layersize, _inputs);
+	cblas_sgemv(CblasRowMajor, CblasNoTrans, _layersize,_inputs, 1.0f, [_layerList firstObject].matrix, _inputs, inputs, 1, 0, mat_result, 1);
 	[self activate:mat_result size:_layersize];
 	for(int i=1;i<[_layerList count] -1;i++){
-		
-		vDSP_mmul(mat_result, 1, [_layerList objectAtIndex:i].matrix, 1, mat_result_new, 1, 1, _layersize, _layersize);
+		cblas_sgemv(CblasRowMajor, CblasNoTrans, _layersize, _layersize, 1, [_layerList objectAtIndex:i].matrix, _layersize, mat_result, 1, 0, mat_result_new, 1);
+		//vDSP_mmul(mat_result, 1, [_layerList objectAtIndex:i].matrix, 1, mat_result_new, 1, 1, _layersize, _layersize);
 		[self activate:mat_result_new size:_layersize];
 		memcpy(mat_result, mat_result_new, _layersize);
 	}
-	
-	vDSP_mmul(mat_result, 1, [_layerList lastObject].matrix, 1, outputs, 1, 1, _outputs, _layersize);
+	cblas_sgemv(CblasRowMajor, CblasNoTrans, _outputs, _layersize, 1.0f, [_layerList lastObject].matrix, _layersize, mat_result, 1, 0, outputs, 1);
+	//vDSP_mmul(mat_result, 1, [_layerList lastObject].matrix, 1, outputs, 1, 1, _outputs, _layersize);
 	//[self activate:outputs size:_outputs];
 }
 +(CENeuralNetwork*)breedNetwork:(CENeuralNetwork*)one with:(CENeuralNetwork*)two{

@@ -1,7 +1,8 @@
 export void activate(uniform float vector[], uniform int size){
 	foreach(i=0 ... size){
 		float f = vector[i];
-		vector[i] = f*rcp(1+abs(f));
+		//vector[i] = f*rcp(1+abs(f));
+		vector[i] = 2*rcp(1+exp(-2f));
 	}
 
 

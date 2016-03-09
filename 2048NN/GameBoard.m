@@ -103,11 +103,9 @@ int tiles[4][4];
 	return sum;
 }
 -(void) addRandomTiles{
-	if([self countEmpty]==0){
-		_didMove = NO;
-		return;
-	}
-	int tileToAdd = arc4random_uniform([self countEmpty]);
+	int empty = [self countEmpty];
+	int tileToAdd = arc4random_uniform(empty);
+	
 	int val = rand()&8;
 	for(int i=0;i<4;i++){
 		for(int j=0;j<4;j++){

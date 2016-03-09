@@ -20,6 +20,7 @@
 		0A753CDB1C8E24E700750EC6 /* NetworkHelper.ispc in Resources */ = {isa = PBXBuildFile; fileRef = 0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */; };
 		0A753CDC1C8E24FE00750EC6 /* NetworkHelper.ispc in Sources */ = {isa = PBXBuildFile; fileRef = 0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */; };
 		0A753CDF1C8F155E00750EC6 /* GameBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A753CDE1C8F155E00750EC6 /* GameBoard.m */; };
+		0A9E889A1C8F994F007A5F3E /* libmkl_rt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9E88991C8F994F007A5F3E /* libmkl_rt.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -33,7 +34,7 @@
 				"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h",
 				"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o",
 			);
-			script = "ispc -O3 --target=avx1.1-i32x16 --math-lib=fast -o \"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o\" \"${SRCROOT}/${PROJECT_NAME}/${INPUT_FILE_BASE}.ispc\" -h \"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h\"";
+			script = "ispc -O3 --target=avx1.1-i32x16 --math-lib=default -o \"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o\" \"${SRCROOT}/${PROJECT_NAME}/${INPUT_FILE_BASE}.ispc\" -h \"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h\"";
 		};
 /* End PBXBuildRule section */
 
@@ -71,6 +72,7 @@
 		0A753CDA1C8E24E700750EC6 /* NetworkHelper.ispc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NetworkHelper.ispc; sourceTree = "<group>"; };
 		0A753CDD1C8F155E00750EC6 /* GameBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameBoard.h; sourceTree = "<group>"; };
 		0A753CDE1C8F155E00750EC6 /* GameBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameBoard.m; sourceTree = "<group>"; };
+		0A9E88991C8F994F007A5F3E /* libmkl_rt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmkl_rt.dylib; path = ../../../../../opt/intel/compilers_and_libraries_2016.2.146/mac/mkl/lib/libmkl_rt.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A9E889A1C8F994F007A5F3E /* libmkl_rt.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +97,7 @@
 		0A12B5691C872F1D00729DE6 = {
 			isa = PBXGroup;
 			children = (
+				0A9E88991C8F994F007A5F3E /* libmkl_rt.dylib */,
 				0A12B5741C872F1D00729DE6 /* 2048NN */,
 				0A12B58B1C872F1D00729DE6 /* 2048NNTests */,
 				0A12B5731C872F1D00729DE6 /* Products */,
@@ -385,10 +389,21 @@
 				GCC_FAST_MATH = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_UNROLL_LOOPS = NO;
+				HEADER_SEARCH_PATHS = /opt/intel/mkl/include;
 				INFOPLIST_FILE = 2048NN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/intel/compilers_and_libraries_2016.2.146/mac/mkl/lib,
+				);
 				LLVM_LTO = NO;
 				OTHER_CFLAGS = "-mrdrnd";
+				OTHER_LDFLAGS = (
+					"-lmkl_intel_lp64",
+					"-lmkl_intel_thread",
+					"-lmkl_core",
+					"-lm",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.C-Elegans.-048NN";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -403,10 +418,21 @@
 				GCC_FAST_MATH = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_UNROLL_LOOPS = NO;
+				HEADER_SEARCH_PATHS = /opt/intel/mkl/include;
 				INFOPLIST_FILE = 2048NN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/intel/compilers_and_libraries_2016.2.146/mac/mkl/lib,
+				);
 				LLVM_LTO = NO;
 				OTHER_CFLAGS = "-mrdrnd";
+				OTHER_LDFLAGS = (
+					"-lmkl_intel_lp64",
+					"-lmkl_intel_thread",
+					"-lmkl_core",
+					"-lm",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.C-Elegans.-048NN";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
