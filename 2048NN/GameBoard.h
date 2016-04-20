@@ -12,6 +12,7 @@
 @property (readonly) int *tiles;
 @property float score;
 @property bool didMove;
+-(void)reseed:(int)seed;
 -(void)getFloats:(float*)results;
 -(void)pressKey:(short)key display:(BOOL)display;
 -(void)activate:(float*) values display:(BOOL)display;

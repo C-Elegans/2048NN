@@ -11,6 +11,7 @@
 #import "GameView.h"
 #import "AppDelegate.h"
 #import "GameBoard.h"
+#import <immintrin.h>
 #define LAYERS 5
 #define LAYERSIZE 32
 
@@ -105,11 +106,13 @@ NSMutableArray<CENeuralNetwork*>* networks;
 	int epoch = 0;
 	dispatch_group_t group = dispatch_group_create();
 	AppDelegate* delegate = (AppDelegate*)[NSApp delegate];
+	
 	while(1){
-		
+		unsigned int seed;
+		_rdrand32_step(&seed);
 		[networks enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(CENeuralNetwork * _Nonnull net, NSUInteger idx, BOOL * _Nonnull stop) {
 			GameBoard *gb = [GameBoard new];
-			
+			[gb reseed:seed];
 			int stopped = 0;
 			
 			

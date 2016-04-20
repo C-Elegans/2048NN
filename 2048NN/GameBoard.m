@@ -7,7 +7,7 @@
 //
 
 #import "GameBoard.h"
-
+#include <immintrin.h>
 @implementation GameBoard
 int tiles[4][4];
 -(id)init{
@@ -93,6 +93,9 @@ int tiles[4][4];
 		}
 	}
 }
+-(void)reseed:(int)seed{
+	srand(seed);
+}
 -(int)countEmpty{
 	int sum=0;
 	for(int i=0;i<4;i++){
@@ -104,19 +107,22 @@ int tiles[4][4];
 }
 -(void) addRandomTiles{
 	int empty = [self countEmpty];
-	int tileToAdd = arc4random_uniform(empty);
-	
-	int val = rand()&8;
-	for(int i=0;i<4;i++){
-		for(int j=0;j<4;j++){
-			if(tiles[j][i] == 0){
-				if(tileToAdd == 0){
-					tiles[j][i] = val!=0?2:4;
+	if(empty != 0){
+		unsigned int tileToAdd;
+		
+		tileToAdd = rand() % empty;
+		int val = rand()&8;
+		for(int i=0;i<4;i++){
+			for(int j=0;j<4;j++){
+				if(tiles[j][i] == 0){
+					if(tileToAdd == 0){
+						tiles[j][i] = val!=0?2:4;
+						tileToAdd--;
+						
+						
+					}
 					tileToAdd--;
-					
-					
 				}
-				tileToAdd--;
 			}
 		}
 	}

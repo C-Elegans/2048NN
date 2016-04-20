@@ -34,7 +34,7 @@
 				"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h",
 				"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o",
 			);
-			script = "ispc -O3 --target=avx1.1-i32x16 --math-lib=default -o \"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o\" \"${SRCROOT}/${PROJECT_NAME}/${INPUT_FILE_BASE}.ispc\" -h \"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h\"";
+			script = "ispc -O3 --target=avx1.1-i32x16 --math-lib=fast --cpu=ivybridge -g -o \"${OBJECT_FILE_DIR_normal}/${NATIVE_ARCH_ACTUAL}/${INPUT_FILE_BASE}.o\" \"${SRCROOT}/${PROJECT_NAME}/${INPUT_FILE_BASE}.ispc\" -h \"${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.h\"";
 		};
 /* End PBXBuildRule section */
 
@@ -387,7 +387,7 @@
 				CLANG_X86_VECTOR_INSTRUCTIONS = avx;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_FAST_MATH = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_UNROLL_LOOPS = NO;
 				HEADER_SEARCH_PATHS = /opt/intel/mkl/include;
 				INFOPLIST_FILE = 2048NN/Info.plist;
@@ -396,7 +396,7 @@
 					"$(inherited)",
 					/opt/intel/compilers_and_libraries_2016.2.146/mac/mkl/lib,
 				);
-				LLVM_LTO = NO;
+				LLVM_LTO = YES;
 				OTHER_CFLAGS = "-mrdrnd";
 				OTHER_LDFLAGS = (
 					"-lmkl_intel_lp64",
@@ -416,7 +416,7 @@
 				CLANG_X86_VECTOR_INSTRUCTIONS = avx;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_FAST_MATH = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_UNROLL_LOOPS = NO;
 				HEADER_SEARCH_PATHS = /opt/intel/mkl/include;
 				INFOPLIST_FILE = 2048NN/Info.plist;
@@ -425,7 +425,7 @@
 					"$(inherited)",
 					/opt/intel/compilers_and_libraries_2016.2.146/mac/mkl/lib,
 				);
-				LLVM_LTO = NO;
+				LLVM_LTO = YES;
 				OTHER_CFLAGS = "-mrdrnd";
 				OTHER_LDFLAGS = (
 					"-lmkl_intel_lp64",
